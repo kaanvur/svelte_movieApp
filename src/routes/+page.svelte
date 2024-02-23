@@ -8,3 +8,11 @@
 <SearchBox></SearchBox>
 <Slider></Slider>
 <PopularTab></PopularTab>
+
+<style lang="scss">
+	h1 {
+		font-size: 18px;
+		font-weight: 600;
+		line-height: 27px;
+	}
+</style>

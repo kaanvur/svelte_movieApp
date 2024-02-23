@@ -28,7 +28,7 @@
 	}
 </script>
 
-<input type="text" bind:value={userInput} on:input={searchMovies} />
+<input type="text" bind:value={userInput} on:input={searchMovies} placeholder="Search" />
 
 <ul>
 	{#each searchResults as result}
@@ -40,3 +40,16 @@
 		</li>
 	{/each}
 </ul>
+
+<style lang="scss">
+	input {
+		border: 0;
+		background: #3A3F47;
+		color: #67686D;
+		font-size: 14px;
+		border-radius: 10px;
+		padding: 10px 15px;
+		width: 100%;
+		margin-block: 10px;
+	}
+</style>

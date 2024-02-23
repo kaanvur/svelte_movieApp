@@ -48,7 +48,11 @@
 
 <Header></Header>
 <div class="container-back_drop">
-	<img class="img-back_drop" src="https://image.tmdb.org/t/p/w500{data.backdrop_path}" alt="" />
+
+	<img class="img-back_drop" src={data.backdrop_path
+									? `https://image.tmdb.org/t/p/w500${data.backdrop_path}`
+									: `https://placehold.co/500x281/4b5563/fff/?text=${data.name || data.title}`}
+									alt="" />
 	<div class="vote">{data.vote_average}</div>
 </div>
 <section class="content-movie">
