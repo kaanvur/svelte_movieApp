@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-import { PUBLIC_API_KEY } from '$env/static/public';
+	import { PUBLIC_API_KEY } from '$env/static/public';
 
 	let movies: { results: any };
 
@@ -9,8 +9,7 @@ import { PUBLIC_API_KEY } from '$env/static/public';
 			method: 'GET',
 			headers: {
 				accept: 'application/json',
-				Authorization:
-					`Bearer ${PUBLIC_API_KEY}`
+				Authorization: `Bearer ${PUBLIC_API_KEY}`
 			}
 		};
 
@@ -32,7 +31,7 @@ import { PUBLIC_API_KEY } from '$env/static/public';
 		{#each movies.results as movie, index}
 			<div class="slide">
 				<a href="/detail/{movie.media_type}/{movie.id}">
-					<img  src="https://image.tmdb.org/t/p/w500/{movie.poster_path}" alt="" />
+					<img src="https://image.tmdb.org/t/p/w500/{movie.poster_path}" alt="" />
 					<span class="number">{index + 1}</span>
 				</a>
 			</div>
@@ -47,19 +46,18 @@ import { PUBLIC_API_KEY } from '$env/static/public';
 		overflow: auto;
 		gap: 10%;
 		padding-inline: 2%;
-		  scroll-snap-type: x mandatory;
+		scroll-snap-type: x mandatory;
 
 		.slide {
 			position: relative;
 			margin-bottom: 9%;
-			  scroll-snap-align: center;
+			scroll-snap-align: center;
 
 			a {
 				text-decoration: none;
 			}
 			img {
 				border-radius: 20px;
-
 			}
 			flex: 1 0 40%;
 			.number {

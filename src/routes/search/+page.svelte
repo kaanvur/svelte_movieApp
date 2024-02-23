@@ -3,5 +3,5 @@
 	import SearchBox from '$lib/components/search-box.svelte';
 </script>
 
-<Header />
+<Header pageTitle="Search" />
 <SearchBox></SearchBox>

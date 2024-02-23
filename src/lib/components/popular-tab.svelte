@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-import { PUBLIC_API_KEY } from '$env/static/public';
+	import { PUBLIC_API_KEY } from '$env/static/public';
 
 	let isLoading = true;
 
@@ -13,8 +13,7 @@ import { PUBLIC_API_KEY } from '$env/static/public';
 			method: 'GET',
 			headers: {
 				accept: 'application/json',
-				Authorization:
-					`Bearer ${PUBLIC_API_KEY}`
+				Authorization: `Bearer ${PUBLIC_API_KEY}`
 			}
 		};
 
@@ -62,16 +61,21 @@ import { PUBLIC_API_KEY } from '$env/static/public';
 	{:else}
 		{#each detail.results as item}
 			<a href="/detail/movie/{item.id}">
-				<img style="view-transition-name: poster-{item.id}" src="https://image.tmdb.org/t/p/w200/{item.poster_path}" alt="" />
+				<img
+					style="view-transition-name: poster-{item.id}"
+					src="https://image.tmdb.org/t/p/w200/{item.poster_path}"
+					alt=""
+				/>
 			</a>
 		{/each}
 	{/if}
 </div>
+
 <style lang="scss">
 	.button-container {
 		display: flex;
-		    justify-content: space-around;
-			margin-block: 20px;
+		justify-content: space-around;
+		margin-block: 20px;
 	}
 	button {
 		background: none;
@@ -80,14 +84,13 @@ import { PUBLIC_API_KEY } from '$env/static/public';
 		padding-block: 10px;
 		border-bottom: 4px solid transparent;
 		&.selected {
-		border-bottom: 4px solid #3A3F47;
-
+			border-bottom: 4px solid #3a3f47;
 		}
 	}
 	.tab-content {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		gap:18px 13px;
+		gap: 18px 13px;
 		img {
 			border-radius: 20px;
 		}

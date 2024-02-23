@@ -5,7 +5,7 @@
 </script>
 
 <h1>What do you want to watch?</h1>
-<input type="text" on:focus={() => goto('/search')}  placeholder="Search" />
+<input type="text" on:focus={() => goto('/search')} placeholder="Search" />
 <Slider></Slider>
 <PopularTab></PopularTab>
 
@@ -17,8 +17,8 @@
 	}
 	input {
 		border: 0;
-		background: #3A3F47;
-		color: #67686D;
+		background: #3a3f47;
+		color: #67686d;
 		font-size: 14px;
 		border-radius: 10px;
 		padding: 10px 15px;

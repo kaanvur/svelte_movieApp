@@ -46,13 +46,15 @@
 	}
 </script>
 
-<Header></Header>
+<Header pageTitle="Detail"></Header>
 <div class="container-back_drop">
-
-	<img class="img-back_drop" src={data.backdrop_path
-									? `https://image.tmdb.org/t/p/w500${data.backdrop_path}`
-									: `https://placehold.co/500x281/4b5563/fff/?text=${data.name || data.title}`}
-									alt="" />
+	<img
+		class="img-back_drop"
+		src={data.backdrop_path
+			? `https://image.tmdb.org/t/p/w500${data.backdrop_path}`
+			: `https://placehold.co/500x281/4b5563/fff/?text=${data.name || data.title}`}
+		alt=""
+	/>
 	<div class="vote">{data.vote_average}</div>
 </div>
 <section class="content-movie">
@@ -60,7 +62,9 @@
 		<img
 			class="img-poster"
 			style="view-transition-name: poster-{data.id}"
-			src="https://image.tmdb.org/t/p/w200{data.poster_path}"
+			src={data.poster_path
+				? `https://image.tmdb.org/t/p/w200${data.poster_path}`
+				: `https://placehold.co/200x294/0296e5/fff/?text=${data.name || data.title}`}
 			alt=""
 		/>
 		<h1>{data.name || data.title}</h1>
@@ -93,48 +97,45 @@
 		{:else if selectedTab === 'reviews'}
 			{#if isLoading}
 				<p>Loading...</p>
-			{:else}
-			{#if detail.results.length > 0}
+			{:else if detail.results.length > 0}
 				<div class="reviews">
-				{#each detail.results as review}
-					<div class="review">
-						<div class="reviewer">
-							<img
-								src={review.author_details.avatar_path
-									? `https://image.tmdb.org/t/p/w200/${review.author_details.avatar_path}`
-									: 'https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg'}
-								alt=""
-							/>
-							{review.author_details.rating || ''}
+					{#each detail.results as review}
+						<div class="review">
+							<div class="reviewer">
+								<img
+									src={review.author_details.avatar_path
+										? `https://image.tmdb.org/t/p/w200/${review.author_details.avatar_path}`
+										: 'https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg'}
+									alt=""
+								/>
+								{review.author_details.rating || ''}
+							</div>
+							<div>
+								<p>{review.author_details.username}</p>
+								{@html review.content}
+							</div>
 						</div>
-						<div>
-							<p>{review.author_details.username}</p>
-							{@html review.content}
-						</div>
-					</div>
-				{/each}
+					{/each}
 				</div>
-				{:else}
+			{:else}
 				Not reviewed
-			{/if}
-			
 			{/if}
 		{:else if selectedTab === 'credits'}
 			{#if isLoading}
 				<p>Loading...</p>
 			{:else}
-			<div class="casts">
-				{#each detail.cast as cast}
-				<div class="cast">
-					<img
-						src={cast.profile_path
-							? `https://image.tmdb.org/t/p/w200/${cast.profile_path}`
-							: 'https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg'}
-						alt=""
-					/>
-					<p>{cast.name}</p>
-					</div>
-				{/each}
+				<div class="casts">
+					{#each detail.cast as cast}
+						<div class="cast">
+							<img
+								src={cast.profile_path
+									? `https://image.tmdb.org/t/p/w200/${cast.profile_path}`
+									: 'https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg'}
+								alt=""
+							/>
+							<p>{cast.name}</p>
+						</div>
+					{/each}
 				</div>
 			{/if}
 		{/if}
@@ -195,7 +196,7 @@
 			}
 		}
 	}
-	
+
 	.reviews {
 		display: grid;
 		gap: 20px;
@@ -213,20 +214,19 @@
 	}
 	.casts {
 		display: grid;
-		    grid-template-columns: 40% 40%;
-    gap: 24px;
-    justify-content: space-between;
+		grid-template-columns: 40% 40%;
+		gap: 24px;
+		justify-content: space-between;
 		.cast {
 			text-align: center;
 			font-weight: 500;
 		}
 		img {
-		border-radius: 50%;
-		width:70%;
-		aspect-ratio: 1;
-		object-fit: cover;
-
-	}
+			border-radius: 50%;
+			width: 70%;
+			aspect-ratio: 1;
+			object-fit: cover;
+		}
 	}
 	.button-container {
 		display: flex;
