@@ -34,7 +34,7 @@
 	{#each searchResults as result}
 		<li>
 			<a href="detail/{result.media_type}/{result.id}"
-				><img src="https://image.tmdb.org/t/p/w200/{result.poster_path}" alt="" />
+				><img style="view-transition-name: poster-{result.id}" src="https://image.tmdb.org/t/p/w200/{result.poster_path}" alt="" />
 				{result.title || result.name}
 			</a>
 		</li>
