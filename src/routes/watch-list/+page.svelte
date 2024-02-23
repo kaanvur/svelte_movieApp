@@ -30,12 +30,12 @@
 				dataMovie,
 				dataSeries
 			};
-			detail.dataMovie.results.forEach((movie:any) => {
-				movie.media_type = 'movie'; 
+			detail.dataMovie.results.forEach((movie: any) => {
+				movie.media_type = 'movie';
 				combinedResults.push(movie);
 			});
 
-			detail.dataSeries.results.forEach((series:any) => {
+			detail.dataSeries.results.forEach((series: any) => {
 				series.media_type = 'tv';
 				combinedResults.push(series);
 			});
@@ -69,7 +69,11 @@
 <style lang="scss">
 	.watch-list {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 18px 13px;
+		grid-template-columns: auto auto;
+		gap: 18px;
+		justify-content: space-between;
+		img {
+			border-radius: 20px;
+		}
 	}
 </style>

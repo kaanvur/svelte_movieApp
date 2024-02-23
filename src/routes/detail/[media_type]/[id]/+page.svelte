@@ -10,7 +10,7 @@
 		year = new Date(releaseDate).getFullYear();
 	}
 	let selectedTab = 'about';
-	let detail: { results: any; cast: any; account_states:any };
+	let detail: { results: any; cast: any; account_states: any };
 
 	async function fetchDetail() {
 		const options = {
@@ -43,7 +43,12 @@
 	}
 </script>
 
-<Header pageTitle="Detail" mediaType={data.media_type} accountState={data.account_states} movieId={data.id}></Header>
+<Header
+	pageTitle="Detail"
+	mediaType={data.media_type}
+	accountState={data.account_states}
+	movieId={data.id}
+></Header>
 <div class="container-back_drop">
 	<img
 		class="img-back_drop"
@@ -205,8 +210,11 @@
 		gap: 12px;
 		.reviewer {
 			text-align: center;
+			color: #0296e5;
 			img {
 				margin-bottom: 10px;
+				border-radius: 50%;
+				aspect-ratio: 1;
 			}
 		}
 	}

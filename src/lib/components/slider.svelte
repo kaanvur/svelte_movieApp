@@ -47,10 +47,12 @@
 		gap: 10%;
 		padding-inline: 2%;
 		scroll-snap-type: x mandatory;
+		padding-bottom: 5%;
+		overflow-x: scroll;
+		overflow-y: hidden;
 
 		.slide {
 			position: relative;
-			margin-bottom: 9%;
 			scroll-snap-align: center;
 
 			a {
