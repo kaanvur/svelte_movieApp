@@ -37,6 +37,7 @@
 
 <style lang="scss">
 	nav {
+		view-transition-name: navbar;
 		position: fixed;
 		border-top: 1px solid #0296e5;
 		background-color: #242a32;

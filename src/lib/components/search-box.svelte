@@ -2,6 +2,8 @@
 	let userInput = '';
 	let searchResults: any[] = [];
 	import { PUBLIC_API_KEY } from '$env/static/public';
+	import { onMount } from 'svelte';
+
 
 
 	const options = {
@@ -26,9 +28,14 @@
 			})
 			.catch((err) => console.error(err));
 	}
+	let inputElement:HTMLElement;
+	 onMount(() => {
+		inputElement.focus();
+	});
 </script>
 
-<input type="text" bind:value={userInput} on:input={searchMovies} placeholder="Search" />
+<input type="text" bind:value={userInput} on:input={searchMovies} bind:this={inputElement}
+ placeholder="Search" />
 
 <ul>
 	{#each searchResults as result}

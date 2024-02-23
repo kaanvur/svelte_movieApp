@@ -94,7 +94,8 @@
 			{#if isLoading}
 				<p>Loading...</p>
 			{:else}
-			<div class="reviews">
+			{#if detail.results.length > 0}
+				<div class="reviews">
 				{#each detail.results as review}
 					<div class="review">
 						<div class="reviewer">
@@ -113,6 +114,10 @@
 					</div>
 				{/each}
 				</div>
+				{:else}
+				Not reviewed
+			{/if}
+			
 			{/if}
 		{:else if selectedTab === 'credits'}
 			{#if isLoading}
