@@ -29,8 +29,11 @@
 	onMount(() => {
 		inputElement.focus();
 	});
+	const getYear = (date:Date) => {
+    	return (new Date(date)).getFullYear();
+	}
 </script>
-
+<div class="search-holder">
 <input
 	type="text"
 	bind:value={userInput}
@@ -38,7 +41,8 @@
 	bind:this={inputElement}
 	placeholder="Search"
 />
-
+<img src="/src/lib/images/Search.svg" alt="">
+</div>
 <ul>
 	{#each searchResults as result}
 		<li>
@@ -50,13 +54,23 @@
 						: `https://placehold.co/200x294/4b5563/fff/?text=${result.name || result.title}`}
 					alt=""
 				/>
-				<div>{result.title || result.name}</div>
+				<div>{result.title || result.name}
+					<div class="vote">{result.vote_average}</div>
+					{getYear(result.first_air_date || result.release_date)}
+				</div>
 			</a>
 		</li>
 	{/each}
 </ul>
 
 <style lang="scss">
+	.search-holder {
+		display: flex;
+		img {
+			margin-left: -30px;
+			pointer-events: none;
+		}
+	}
 	input {
 		border: 0;
 		background: #3a3f47;

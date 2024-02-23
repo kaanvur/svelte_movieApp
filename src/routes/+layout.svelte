@@ -112,5 +112,6 @@
 		max-width: 600px;
 		margin-inline: auto;
 		padding-inline: 1%;
+		margin-top: 10px;
 	}
 </style>

@@ -3,17 +3,14 @@
 	import { PUBLIC_API_KEY } from '$env/static/public';
 
 	export let data;
-	console.log(data);
+	let isLoading = false;
 	const releaseDate = data.first_air_date || data.release_date;
 	let year: number | null = null;
-	let isLoading = false;
-
 	if (releaseDate) {
 		year = new Date(releaseDate).getFullYear();
 	}
 	let selectedTab = 'about';
-
-	let detail: { results: any; cast: any };
+	let detail: { results: any; cast: any; account_states:any };
 
 	async function fetchDetail() {
 		const options = {
@@ -46,7 +43,7 @@
 	}
 </script>
 
-<Header pageTitle="Detail"></Header>
+<Header pageTitle="Detail" mediaType={data.media_type} accountState={data.account_states} movieId={data.id}></Header>
 <div class="container-back_drop">
 	<img
 		class="img-back_drop"
@@ -170,6 +167,7 @@
 		margin-top: -20%;
 		width: 95px;
 		border-radius: 20px;
+		position: relative;
 	}
 	.content-top {
 		display: flex;

@@ -15,7 +15,7 @@ export async function load({ params }: { params: ParamsType }) {
         };
 
         try {
-            const response = await fetch(`https://api.themoviedb.org/3/${media_type}/${id}?language=en-EN`, options);
+            const response = await fetch(`https://api.themoviedb.org/3/${media_type}/${id}?append_to_response=account_states&language=en-EN`, options);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
