@@ -41,15 +41,17 @@ async function fetchMovies(url: string): Promise<Movie[]> {
         }
 
         const fetchedMovies = await response.json();
-
-        let moviesWithUrl = fetchedMovies.results?.map((movie: Movie) => {
-            return {
-                ...movie,
-                url: url,
-            };
-        });
+        let moviesWithUrl: [] = [];
+        if (fetchedMovies.results) {
+            moviesWithUrl = fetchedMovies.results?.map((movie: Movie) => {
+                return {
+                    ...movie,
+                    url: url,
+                };
+            });
+        }
         if (!fetchedMovies.results) {
-            moviesWithUrl = fetchedMovies.cast.map((cast: Movie) => {
+            moviesWithUrl = fetchedMovies.cast?.map((cast: Movie) => {
                 return {
                     ...cast,
                     url: url,

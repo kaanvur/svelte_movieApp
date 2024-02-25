@@ -73,3 +73,6 @@ a, button {
             }
                                                                 }
 }
+::view-transition-group(navbar) {
+    z-index: 1;
+}
