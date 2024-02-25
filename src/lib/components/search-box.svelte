@@ -35,9 +35,9 @@
 	onMount(() => {
 		inputElement.focus();
 	});
-	function getYear(date: Date | undefined) {
-		return date?.getFullYear();
-	}
+  function getYear(date: Date | undefined) {
+    return date ? new Date(date).getFullYear() : '';
+  }
 </script>
 
 <div class="search-holder">
@@ -67,7 +67,7 @@
 					<div>
 						{result.title || result.name}
 						<div class="vote">{result.vote_average}</div>
-						{result.first_air_date || result.release_date || ''}
+            				{getYear(result.first_air_date || result.release_date)}
 					</div>
 				</a>
 			</li>
