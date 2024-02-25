@@ -67,7 +67,7 @@
 					<div>
 						{result.title || result.name}
 						<div class="vote">{result.vote_average}</div>
-						{getYear(result.first_air_date || result.release_date)}
+						{result.first_air_date || result.release_date || ''}
 					</div>
 				</a>
 			</li>
