@@ -1,5 +1,7 @@
 <script lang="ts">
 	export let pageTitle: string = 'Title';
+	import { PUBLIC_API_KEY } from '$env/static/public';
+
 	export let accountState: { watchlist: any } = { watchlist: [] };
 	export let movieId: any = 0;
 	export let mediaType: string = 'movie';
@@ -15,7 +17,7 @@
 				accept: 'application/json',
 				'content-type': 'application/json',
 				Authorization:
-					'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDVlYzkyYWNiZTNjMzRhYjEzMTYyMTdhZWI5MzRiNyIsInN1YiI6IjY1ZDc2NDQwZTZkM2NjMDE2MmMwYmI0YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hnCU5v9EpHEJLW4i5fc0p1tE8o48mkaq2W2leV7hYVg'
+					`Bearer ${PUBLIC_API_KEY}`
 			},
 			body: JSON.stringify({
 				media_type: `${mediaType}`,
@@ -26,7 +28,6 @@
 
 		fetch('https://api.themoviedb.org/3/account/21024833/watchlist', options)
 			.then((response) => response.json())
-			.then((response) => console.log(response))
 			.catch((err) => console.error(err));
 	};
 </script>

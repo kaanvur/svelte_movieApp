@@ -1,43 +1,41 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
 	import { PUBLIC_API_KEY } from '$env/static/public';
+	import { fetchMovies, isLoading } from '$lib/dataStore';
+	import { load } from './+page.js';
+
 
 	export let data;
-	let isLoading = false;
 	const releaseDate = data.first_air_date || data.release_date;
 	let year: number | null = null;
 	if (releaseDate) {
 		year = new Date(releaseDate).getFullYear();
 	}
 	let selectedTab = 'about';
-	let detail: { results: any; cast: any; account_states: any };
 
-	async function fetchDetail() {
-		const options = {
-			method: 'GET',
-			headers: {
-				accept: 'application/json',
-				Authorization: `Bearer ${PUBLIC_API_KEY}`
-			}
-		};
 
-		try {
-			const response = await fetch(
-				`https://api.themoviedb.org/3/${data.media_type}/${data.id}/${selectedTab}?language=en-US`,
-				options
-			);
-			detail = await response.json();
-		} catch (err) {
-			console.error(err);
-		}
-	}
+	let movies:any = [];
+    let loading = false;
+
+    async function fetchData() {
+		movies = [];
+        try {
+            const moviesUrl = `https://api.themoviedb.org/3/${data.media_type}/${data.id}/${selectedTab}?language=en-US`;
+            movies = await fetchMovies(moviesUrl);
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+        }
+    }
+
+    $: {
+        loading = $isLoading
+    }
+
 	async function changeTab(tabName: string) {
 		if (selectedTab != tabName) {
 			selectedTab = tabName;
 			if (tabName != 'about') {
-				isLoading = true;
-				await fetchDetail();
-				isLoading = false;
+				await fetchData();
 			}
 		}
 	}
@@ -97,11 +95,11 @@
 		{#if selectedTab === 'about'}
 			<p>{data.overview}</p>
 		{:else if selectedTab === 'reviews'}
-			{#if isLoading}
+			{#if loading}
 				<p>Loading...</p>
-			{:else if detail.results.length > 0}
+			{:else if movies.length > 0}
 				<div class="reviews">
-					{#each detail.results as review}
+					{#each movies as review}
 						<div class="review">
 							<div class="reviewer">
 								<img
@@ -123,11 +121,11 @@
 				Not reviewed
 			{/if}
 		{:else if selectedTab === 'credits'}
-			{#if isLoading}
+			{#if loading}
 				<p>Loading...</p>
 			{:else}
 				<div class="casts">
-					{#each detail.cast as cast}
+					{#each movies as cast}
 						<div class="cast">
 							<img
 								src={cast.profile_path

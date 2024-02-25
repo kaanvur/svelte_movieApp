@@ -1,57 +1,50 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
-	import { PUBLIC_API_KEY } from '$env/static/public';
-	import { onMount } from 'svelte';
+	import { fetchMovies, isLoading } from '$lib/dataStore';
+	import { onDestroy, onMount } from 'svelte';
 	let detail: { results: any };
-	let isLoading = true;
 	let combinedResults: any[] = [];
+	let selectedTab = '';
+	let movies: any = [];
+	let series: any = [];
+	let loading = false;
 
-	async function fetchDetail() {
-		const options = {
-			method: 'GET',
-			headers: {
-				accept: 'application/json',
-				Authorization: `Bearer ${PUBLIC_API_KEY}`
-			}
-		};
-
+	$: {
+		loading = $isLoading;
+	}
+	async function fetchData() {
 		try {
-			const response1 = await fetch(
-				`https://api.themoviedb.org/3//account/21024833/watchlist/movies?language=en-US&page=1&sort_by=created_at.asc`,
-				options
-			);
-			const response2 = await fetch(
-				`https://api.themoviedb.org/3//account/21024833/watchlist/tv?language=en-US&page=1&sort_by=created_at.asc`,
-				options
-			);
-			const dataMovie = await response1.json();
-			const dataSeries = await response2.json();
+			const moviesUrl = `https://api.themoviedb.org/3//account/21024833/watchlist/movies?language=en-US&page=1&sort_by=created_at.asc`;
+			movies = await fetchMovies(moviesUrl);
+			const seriesUrl = `https://api.themoviedb.org/3//account/21024833/watchlist/tv?language=en-US&page=1&sort_by=created_at.asc`;
+			series = await fetchMovies(seriesUrl);
 			const detail = {
-				dataMovie,
-				dataSeries
+				movies,
+				series
 			};
-			detail.dataMovie.results.forEach((movie: any) => {
+			detail.movies.forEach((movie: any) => {
 				movie.media_type = 'movie';
 				combinedResults.push(movie);
 			});
 
-			detail.dataSeries.results.forEach((series: any) => {
+			detail.series.forEach((series: any) => {
 				series.media_type = 'tv';
 				combinedResults.push(series);
 			});
-			combinedResults = detail.dataMovie.results.concat(detail.dataSeries.results);
-			isLoading = false;
-		} catch (err) {
-			console.error(err);
+			combinedResults = detail.movies.concat(detail.series);
+		} catch (error) {
+			console.error('Error fetching movies:', error);
 		}
 	}
-	onMount(fetchDetail);
+
+	onMount(() => {
+		fetchData();
+	});
 </script>
 
 <Header pageTitle="Watch list" />
-
-{#if isLoading}
-	<p>Loading...</p>
+{#if loading}
+	Loading...
 {:else}
 	<div class="watch-list">
 		{#each combinedResults as item}

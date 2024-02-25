@@ -1,34 +1,27 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { PUBLIC_API_KEY } from '$env/static/public';
+	import { fetchMovies, isLoading } from '$lib/dataStore';
 
-	let movies: { results: any };
+	let movies: any;
+	let loading = false;
 
-	async function fetchMovies() {
-		const options = {
-			method: 'GET',
-			headers: {
-				accept: 'application/json',
-				Authorization: `Bearer ${PUBLIC_API_KEY}`
-			}
-		};
-
+	$: {
+		loading = $isLoading;
+	}
+	async function fetchData() {
 		try {
-			const response = await fetch(
-				'https://api.themoviedb.org/3/trending/all/day?language=en-EN',
-				options
-			);
-			movies = await response.json();
-		} catch (err) {
-			console.error(err);
+			const moviesUrl = 'https://api.themoviedb.org/3/trending/all/day?language=en-EN';
+			movies = await fetchMovies(moviesUrl);
+		} catch (error) {
+			console.error('Error fetching movies:', error);
 		}
 	}
-	onMount(fetchMovies);
+	onMount(fetchData);
 </script>
 
 {#if movies}
 	<div class="slider">
-		{#each movies.results as movie, index}
+		{#each movies as movie, index}
 			<div class="slide">
 				<a href="/detail/{movie.media_type}/{movie.id}">
 					<img src="https://image.tmdb.org/t/p/w500/{movie.poster_path}" alt="" />

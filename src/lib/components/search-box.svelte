@@ -1,67 +1,79 @@
 <script lang="ts">
-	let userInput = '';
-	let searchResults: any[] = [];
-	import { PUBLIC_API_KEY } from '$env/static/public';
+	import { fetchMovies, isLoading } from '$lib/dataStore';
 	import { onMount } from 'svelte';
+	let movies: Movie[] = [];
+	let userInput = '';
 
-	const options = {
-		method: 'GET',
-		headers: {
-			accept: 'application/json',
-			Authorization: `Bearer ${PUBLIC_API_KEY}`
-		}
-	};
-
-	function searchMovies() {
-		fetch(
-			`https://api.themoviedb.org/3/search/multi?query=${userInput}&include_adult=false&language=en-EN&page=1`,
-			options
-		)
-			.then((response) => response.json())
-			.then((data) => {
-				searchResults = data.results.filter(
-					(result: { media_type: string }) => result.media_type !== 'person'
-				);
-			})
-			.catch((err) => console.error(err));
+	let loading = false;
+	interface Movie {
+		media_type?: string;
+		id?: string;
+		poster_path?: string;
+		name?:string;
+		title?: string;
+		vote_average?:string;
+		first_air_date?:Date;
+		release_date?:Date;
 	}
+
+	$: {
+		loading = $isLoading;
+	}
+	async function fetchData() {
+		try {
+			const moviesUrl = `https://api.themoviedb.org/3/search/multi?query=${userInput}&include_adult=false&language=en-EN&page=1`;
+			movies = (await fetchMovies(moviesUrl)) as Movie[];
+			movies = movies.filter((movie: Movie) => {
+				return movie.media_type !== 'person';
+			});
+		} catch (error) {
+			console.error('Error fetching movies:', error);
+		}
+	}
+
 	let inputElement: HTMLElement;
 	onMount(() => {
 		inputElement.focus();
 	});
-	const getYear = (date:Date) => {
-    	return (new Date(date)).getFullYear();
+	function getYear(date: Date | undefined) {
+		return date?.getFullYear();
 	}
 </script>
+
 <div class="search-holder">
-<input
-	type="text"
-	bind:value={userInput}
-	on:input={searchMovies}
-	bind:this={inputElement}
-	placeholder="Search"
-/>
-<img src="/src/lib/images/Search.svg" alt="">
+	<input
+		type="text"
+		bind:value={userInput}
+		on:input={fetchData}
+		bind:this={inputElement}
+		placeholder="Search"
+	/>
+	<img src="/src/lib/images/Search.svg" alt="" />
 </div>
-<ul>
-	{#each searchResults as result}
-		<li>
-			<a href="detail/{result.media_type}/{result.id}"
-				><img
-					style="view-transition-name: poster-{result.id}"
-					src={result.poster_path
-						? `https://image.tmdb.org/t/p/w200${result.poster_path}`
-						: `https://placehold.co/200x294/4b5563/fff/?text=${result.name || result.title}`}
-					alt=""
-				/>
-				<div>{result.title || result.name}
-					<div class="vote">{result.vote_average}</div>
-					{getYear(result.first_air_date || result.release_date)}
-				</div>
-			</a>
-		</li>
-	{/each}
-</ul>
+{#if loading}
+	Loading...
+{:else if movies}
+	<ul>
+		{#each movies as result}
+			<li>
+				<a href="detail/{result.media_type}/{result.id}"
+					><img
+						style="view-transition-name: poster-{result.id}"
+						src={result.poster_path
+							? `https://image.tmdb.org/t/p/w200${result.poster_path}`
+							: `https://placehold.co/200x294/4b5563/fff/?text=${result.name || result.title}`}
+						alt=""
+					/>
+					<div>
+						{result.title || result.name}
+						<div class="vote">{result.vote_average}</div>
+						{getYear(result.first_air_date || result.release_date)}
+					</div>
+				</a>
+			</li>
+		{/each}
+	</ul>
+{/if}
 
 <style lang="scss">
 	.search-holder {
