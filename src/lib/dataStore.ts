@@ -1,18 +1,23 @@
 import { PUBLIC_API_KEY } from '$env/static/public';
 import { writable } from 'svelte/store';
-
-const isLoading = writable(false);
-
+const isLoading = writable<boolean>(false);
+const watchlistNeedFetchStore = writable<boolean>(false);
 const dataStore = writable<Movie[]>([]);
 type Movie = { url: string; };
 let unsubscribe: () => void;
-
+let watchlistNeedFetch: boolean = false;
 async function fetchMovies(url: string): Promise<Movie[]> {
+    watchlistNeedFetchStore.subscribe(value => {
+        watchlistNeedFetch = value;
+    });
+    const isWatchListPage = window.location.pathname.includes("/watch-list");
     try {
         isLoading.set(true);
-
         let existingMovieData: Movie[] = [];
         const existingDataPromise = new Promise<Movie[]>((resolve) => {
+            if (watchlistNeedFetch && isWatchListPage) {
+                resolve([])
+            }
             unsubscribe = dataStore.subscribe((data) => {
                 existingMovieData = data.filter((movie) => movie.url === url);
                 resolve(existingMovieData);
@@ -73,4 +78,4 @@ async function fetchMovies(url: string): Promise<Movie[]> {
     }
 }
 
-export { isLoading, fetchMovies };
+export { isLoading, fetchMovies, watchlistNeedFetchStore };

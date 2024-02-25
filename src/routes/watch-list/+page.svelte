@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
-	import { fetchMovies, isLoading } from '$lib/dataStore';
-	import { onDestroy, onMount } from 'svelte';
+	import { fetchMovies, isLoading, watchlistNeedFetchStore } from '$lib/dataStore';
+	import { onMount } from 'svelte';
 	let detail: { results: any };
 	let combinedResults: any[] = [];
-	let selectedTab = '';
 	let movies: any = [];
 	let series: any = [];
 	let loading = false;
@@ -32,6 +31,7 @@
 				combinedResults.push(series);
 			});
 			combinedResults = detail.movies.concat(detail.series);
+			watchlistNeedFetchStore.set(false);
 		} catch (error) {
 			console.error('Error fetching movies:', error);
 		}

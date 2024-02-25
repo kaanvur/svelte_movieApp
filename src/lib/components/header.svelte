@@ -1,35 +1,36 @@
 <script lang="ts">
-	export let pageTitle: string = 'Title';
-	import { PUBLIC_API_KEY } from '$env/static/public';
 
+	import { PUBLIC_API_KEY } from '$env/static/public';
+	import {watchlistNeedFetchStore} from '$lib/dataStore';
+	import imgBack from '$lib/images/arrow-left.svg';
+	export let pageTitle: string = 'Title';
 	export let accountState: { watchlist: any } = { watchlist: [] };
 	export let movieId: any = 0;
 	export let mediaType: string = 'movie';
-
-	import imgBack from '$lib/images/arrow-left.svg';
 	const icoref = pageTitle.toLowerCase().replace(/\s+/g, '-');
 	const imageFolder = '/src/lib/images/';
-	const toggleWatchlist = () => {
-		accountState.watchlist = !accountState.watchlist;
-		const options = {
-			method: 'POST',
-			headers: {
-				accept: 'application/json',
-				'content-type': 'application/json',
-				Authorization:
-					`Bearer ${PUBLIC_API_KEY}`
-			},
-			body: JSON.stringify({
-				media_type: `${mediaType}`,
-				media_id: movieId,
-				watchlist: accountState.watchlist
-			})
-		};
 
-		fetch('https://api.themoviedb.org/3/account/21024833/watchlist', options)
-			.then((response) => response.json())
-			.catch((err) => console.error(err));
-	};
+const toggleWatchlist = () => {
+	watchlistNeedFetchStore.set(true);
+    accountState.watchlist = !accountState.watchlist;
+    const options = {
+        method: 'POST',
+        headers: {
+            accept: 'application/json',
+            'content-type': 'application/json',
+            Authorization: `Bearer ${PUBLIC_API_KEY}`,
+        },
+        body: JSON.stringify({
+            media_type: `${mediaType}`,
+            media_id: movieId,
+            watchlist: accountState.watchlist,
+        }),
+    };
+
+    fetch('https://api.themoviedb.org/3/account/21024833/watchlist', options)
+        .then((response) => response.json())
+        .catch((err) => console.error(err));
+};
 </script>
 
 <header>
