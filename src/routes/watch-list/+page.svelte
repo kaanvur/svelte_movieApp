@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
-	import { fetchMovies, isLoading, watchlistNeedFetchStore } from '$lib/dataStore';
+	import { fetchMovies, watchlistNeedFetchStore } from '$lib/dataStore';
 	import { onMount } from 'svelte';
 	let detail: { results: any };
 	let combinedResults: any[] = [];
@@ -8,11 +8,10 @@
 	let series: any = [];
 	let loading = false;
 
-	$: {
-		loading = $isLoading;
-	}
+
 	async function fetchData() {
 		try {
+			loading = true;
 			const moviesUrl = `https://api.themoviedb.org/3//account/21024833/watchlist/movies?language=en-US&page=1&sort_by=created_at.asc`;
 			movies = await fetchMovies(moviesUrl);
 			const seriesUrl = `https://api.themoviedb.org/3//account/21024833/watchlist/tv?language=en-US&page=1&sort_by=created_at.asc`;
@@ -32,6 +31,7 @@
 			});
 			combinedResults = detail.movies.concat(detail.series);
 			watchlistNeedFetchStore.set(false);
+			loading = false
 		} catch (error) {
 			console.error('Error fetching movies:', error);
 		}

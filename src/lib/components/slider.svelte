@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fetchMovies, isLoading } from '$lib/dataStore';
+	import { fetchMovies } from '$lib/dataStore';
 
 	let movies: any;
 	let loading = false;
 
-	$: {
-		loading = $isLoading;
-	}
 	async function fetchData() {
 		try {
+			loading = true;
 			const moviesUrl = 'https://api.themoviedb.org/3/trending/all/day?language=en-EN';
 			movies = await fetchMovies(moviesUrl);
+			loading = false;
 		} catch (error) {
 			console.error('Error fetching movies:', error);
 		}
@@ -19,7 +18,9 @@
 	onMount(fetchData);
 </script>
 
-{#if movies}
+{#if loading}
+	Loading...
+{:else if movies}
 	<div class="slider">
 		{#each movies as movie, index}
 			<div class="slide">

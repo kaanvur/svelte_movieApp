@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
 	import { PUBLIC_API_KEY } from '$env/static/public';
-	import { fetchMovies, isLoading } from '$lib/dataStore';
+	import { fetchMovies } from '$lib/dataStore';
 	import { load } from './+page.js';
 
 	export let data;
@@ -25,15 +25,14 @@
 		}
 	}
 
-	$: {
-		loading = $isLoading;
-	}
 
 	async function changeTab(tabName: string) {
 		if (selectedTab != tabName) {
 			selectedTab = tabName;
 			if (tabName != 'about') {
+				loading = true;
 				await fetchData();
+				loading = false;
 			}
 		}
 	}

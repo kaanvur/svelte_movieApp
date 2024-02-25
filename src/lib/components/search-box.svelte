@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchMovies, isLoading } from '$lib/dataStore';
+	import { fetchMovies } from '$lib/dataStore';
 	import { onMount } from 'svelte';
 	let movies: Movie[] = [];
 	let userInput = '';
@@ -16,13 +16,12 @@
 		release_date?: Date;
 	}
 
-	$: {
-		loading = $isLoading;
-	}
 	async function fetchData() {
 		try {
+			loading = true
 			const moviesUrl = `https://api.themoviedb.org/3/search/multi?query=${userInput}&include_adult=false&language=en-EN&page=1`;
 			movies = (await fetchMovies(moviesUrl)) as Movie[];
+			loading = false
 			movies = movies.filter((movie: Movie) => {
 				return movie.media_type !== 'person';
 			});

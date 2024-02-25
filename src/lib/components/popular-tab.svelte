@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { fetchMovies, isLoading } from '$lib/dataStore';
+    import { fetchMovies } from '$lib/dataStore';
 
     let selectedTab = '';
     let movies:any = [];
@@ -8,15 +8,13 @@
 
     async function fetchData() {
         try {
+            loading = true;
             const moviesUrl = `https://api.themoviedb.org/3/movie/${selectedTab}?language=en-US&page=1`;
             movies = await fetchMovies(moviesUrl);
+            loading = false;
         } catch (error) {
             console.error('Error fetching movies:', error);
         }
-    }
-
-    $: {
-        loading = $isLoading
     }
 
     async function changeTab(tabName: string) {

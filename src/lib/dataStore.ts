@@ -12,7 +12,7 @@ async function fetchMovies(url: string): Promise<Movie[]> {
     });
     const isWatchListPage = window.location.pathname.includes("/watch-list");
     try {
-        isLoading.set(true);
+        // isLoading.set(true);
         let existingMovieData: Movie[] = [];
         const existingDataPromise = new Promise<Movie[]>((resolve) => {
             if (watchlistNeedFetch && isWatchListPage) {
@@ -56,12 +56,10 @@ async function fetchMovies(url: string): Promise<Movie[]> {
             });
         }
         if (!fetchedMovies.results) {
-            moviesWithUrl = fetchedMovies.cast?.map((cast: Movie) => {
-                return {
-                    ...cast,
-                    url: url,
-                };
-            });
+            moviesWithUrl = fetchedMovies.cast ? fetchedMovies.cast.map((cast: Movie) => ({
+                ...cast,
+                url: url,
+            })) : [{ ...fetchedMovies, url: url }];
         }
 
         dataStore.update((data) => [...data, ...moviesWithUrl]);
