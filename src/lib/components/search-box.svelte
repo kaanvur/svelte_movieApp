@@ -9,11 +9,11 @@
 		media_type?: string;
 		id?: string;
 		poster_path?: string;
-		name?:string;
+		name?: string;
 		title?: string;
-		vote_average?:string;
-		first_air_date?:Date;
-		release_date?:Date;
+		vote_average?: number;
+		first_air_date?: Date;
+		release_date?: Date;
 	}
 
 	$: {
@@ -35,9 +35,9 @@
 	onMount(() => {
 		inputElement.focus();
 	});
-  function getYear(date: Date | undefined) {
-    return date ? new Date(date).getFullYear() : '';
-  }
+	function getYear(date: Date | undefined) {
+		return date ? new Date(date).getFullYear() : '';
+	}
 </script>
 
 <div class="search-holder">
@@ -65,9 +65,12 @@
 						alt=""
 					/>
 					<div>
-						{result.title || result.name}
-						<div class="vote">{result.vote_average}</div>
-            				{getYear(result.first_air_date || result.release_date)}
+						<h4>{result.title || result.name}</h4>
+						<div class="vote">
+							{Math.round((result.vote_average || 0) * 10) / 10}
+						</div> 
+
+						{getYear(result.first_air_date || result.release_date)}
 					</div>
 				</a>
 			</li>
@@ -98,9 +101,19 @@
 		gap: 20px;
 	}
 	a {
+		h4 {
+			font-size: 16px;
+			font-weight: 400;
+			margin-bottom: 14px;
+		}
 		display: grid;
 		grid-template-columns: 20% 1fr;
 		gap: 20px;
+		text-decoration: none;
+		.vote {
+			color: #ff8700;
+			font-weight: 600;
+		}
 		> img {
 			border-radius: 20px;
 		}

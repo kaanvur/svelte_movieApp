@@ -4,7 +4,6 @@
 	import { fetchMovies, isLoading } from '$lib/dataStore';
 	import { load } from './+page.js';
 
-
 	export let data;
 	const releaseDate = data.first_air_date || data.release_date;
 	let year: number | null = null;
@@ -13,23 +12,22 @@
 	}
 	let selectedTab = 'about';
 
+	let movies: any = [];
+	let loading = false;
 
-	let movies:any = [];
-    let loading = false;
-
-    async function fetchData() {
+	async function fetchData() {
 		movies = [];
-        try {
-            const moviesUrl = `https://api.themoviedb.org/3/${data.media_type}/${data.id}/${selectedTab}?language=en-US`;
-            movies = await fetchMovies(moviesUrl);
-        } catch (error) {
-            console.error('Error fetching movies:', error);
-        }
-    }
+		try {
+			const moviesUrl = `https://api.themoviedb.org/3/${data.media_type}/${data.id}/${selectedTab}?language=en-US`;
+			movies = await fetchMovies(moviesUrl);
+		} catch (error) {
+			console.error('Error fetching movies:', error);
+		}
+	}
 
-    $: {
-        loading = $isLoading
-    }
+	$: {
+		loading = $isLoading;
+	}
 
 	async function changeTab(tabName: string) {
 		if (selectedTab != tabName) {
@@ -55,7 +53,9 @@
 			: `https://placehold.co/500x281/4b5563/fff/?text=${data.name || data.title}`}
 		alt=""
 	/>
-	<div class="vote">{data.vote_average}</div>
+	<div class="vote">
+		{Math.round((data.vote_average || 0) * 10) / 10}
+	</div>
 </div>
 <section class="content-movie">
 	<div class="content-top">
