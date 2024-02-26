@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Header from '$lib/components/header.svelte';
-	import { PUBLIC_API_KEY } from '$env/static/public';
 	import { fetchMovies } from '$lib/dataStore';
-	import { load } from './+page.js';
+	import { fade } from 'svelte/transition';
 
 	export let data;
 	const releaseDate = data.first_air_date || data.release_date;
@@ -24,7 +23,6 @@
 			console.error('Error fetching movies:', error);
 		}
 	}
-
 
 	async function changeTab(tabName: string) {
 		if (selectedTab != tabName) {
@@ -92,30 +90,38 @@
 
 	<div class="tab-content">
 		{#if selectedTab === 'about'}
-			<p>{data.overview}</p>
+			{#if loading}
+				<p>Loading...</p>
+			{:else}
+				<transition in:fade out:fade>
+					<p>{data.overview}</p>
+				</transition>
+			{/if}
 		{:else if selectedTab === 'reviews'}
 			{#if loading}
 				<p>Loading...</p>
 			{:else if movies.length > 0}
-				<div class="reviews">
-					{#each movies as review}
-						<div class="review">
-							<div class="reviewer">
-								<img
-									src={review.author_details.avatar_path
-										? `https://image.tmdb.org/t/p/w200/${review.author_details.avatar_path}`
-										: 'https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg'}
-									alt=""
-								/>
-								{review.author_details.rating || ''}
+				<transition in:fade out:fade>
+					<div class="reviews">
+						{#each movies as review}
+							<div class="review">
+								<div class="reviewer">
+									<img
+										src={review.author_details.avatar_path
+											? `https://image.tmdb.org/t/p/w200/${review.author_details.avatar_path}`
+											: 'https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg'}
+										alt=""
+									/>
+									{review.author_details.rating || ''}
+								</div>
+								<div>
+									<p>{review.author_details.username}</p>
+									{@html review.content}
+								</div>
 							</div>
-							<div>
-								<p>{review.author_details.username}</p>
-								{@html review.content}
-							</div>
-						</div>
-					{/each}
-				</div>
+						{/each}
+					</div>
+				</transition>
 			{:else}
 				Not reviewed
 			{/if}
@@ -123,19 +129,21 @@
 			{#if loading}
 				<p>Loading...</p>
 			{:else}
-				<div class="casts">
-					{#each movies as cast}
-						<div class="cast">
-							<img
-								src={cast.profile_path
-									? `https://image.tmdb.org/t/p/w200/${cast.profile_path}`
-									: 'https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg'}
-								alt=""
-							/>
-							<p>{cast.name}</p>
-						</div>
-					{/each}
-				</div>
+				<transition in:fade out:fade>
+					<div class="casts">
+						{#each movies as cast}
+							<div class="cast">
+								<img
+									src={cast.profile_path
+										? `https://image.tmdb.org/t/p/w200/${cast.profile_path}`
+										: 'https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg'}
+									alt=""
+								/>
+								<p>{cast.name}</p>
+							</div>
+						{/each}
+					</div>
+				</transition>
 			{/if}
 		{/if}
 	</div>
@@ -235,6 +243,7 @@
 		display: flex;
 		justify-content: space-around;
 		margin-block: 20px;
+		view-transition-name: detail-tab-button;
 	}
 	button {
 		background: none;
