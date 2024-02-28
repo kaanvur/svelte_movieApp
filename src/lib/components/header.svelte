@@ -4,7 +4,7 @@
 	import {watchlistNeedFetchStore} from '$lib/dataStore';
 	import imgBack from '$lib/images/arrow-left.svg';
 	export let pageTitle: string = 'Title';
-	export let accountState: { watchlist: any } = { watchlist: [] };
+    export let accountState: { watchlist: boolean };
 	export let movieId: any = 0;
 	export let mediaType: string = 'movie';
 	const icoref = pageTitle.toLowerCase().replace(/\s+/g, '-');

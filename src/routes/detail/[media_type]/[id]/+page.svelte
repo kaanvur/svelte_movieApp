@@ -2,8 +2,10 @@
 	import Header from '$lib/components/header.svelte';
 	import { fetchMovies } from '$lib/dataStore';
 	import { fade } from 'svelte/transition';
+	import type { MovieData } from './+page'; // Adjust the import path as necessary
 
-	export let data;
+
+    export let data: MovieData;
 	const releaseDate = data.first_air_date || data.release_date;
 	let year: number | null = null;
 	if (releaseDate) {

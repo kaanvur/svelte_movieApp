@@ -9,6 +9,6 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
-} import '@poppanator/sveltekit-svg/dist/svg'
+}
 
 export {};
