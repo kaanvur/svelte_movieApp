@@ -57,6 +57,10 @@
 						src="https://image.tmdb.org/t/p/w200/{item.poster_path}"
 						alt=""
 					/>
+					<div class="overview">
+						<h5>{item.title}</h5>
+						<p>{item.overview}</p>
+					</div>
 				</a>
 			{/each}
 		</transition>
@@ -80,12 +84,56 @@
 			border-bottom: 4px solid #3a3f47;
 		}
 	}
+	.overview {
+		h5 {
+			font-size: 16px;
+			font-weight: 800;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 3;
+			white-space: pre-wrap;
+			overflow: hidden;
+		}
+		position: absolute;
+		height: 100%;
+		bottom: 0;
+		text-overflow: clip;
+		overflow: hidden;
+		padding: 5px;
+		background: radial-gradient(circle, rgba(43, 43, 43, 0.5) 0%, rgba(2, 150, 229, 1) 100%);
+		border-radius: 20px;
+		transition: all 0.6s ease;
+		opacity: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
 	.tab-content transition {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 18px 13px;
+		a {
+			text-decoration: none;
+			position: relative;
+			overflow: hidden;
+			transition: all 0.4s ease;
+			display: grid;
+			&:hover {
+				transform: scale(1.1);
+				.overview {
+					opacity: 1;
+				}
+			}
+		}
 		img {
 			border-radius: 20px;
+		}
+		p {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 7;
+			white-space: pre-wrap;
+			overflow: hidden;
 		}
 	}
 </style>

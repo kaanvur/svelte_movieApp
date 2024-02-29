@@ -26,6 +26,10 @@
 			<div class="slide">
 				<a href="/detail/{movie.media_type}/{movie.id}">
 					<img src="https://image.tmdb.org/t/p/w500/{movie.poster_path}" alt="" />
+					<div class="overview">
+						<h5>{movie.title || movie.name}</h5>
+						<p>{movie.overview}</p>
+					</div>
 					<span class="number">{index + 1}</span>
 				</a>
 			</div>
@@ -51,12 +55,23 @@
 
 			a {
 				text-decoration: none;
+				display: grid;
+				&:hover {
+					.overview {
+						opacity: 1;
+					}
+					.number {
+						opacity: 0.5;
+						filter: blur(5px);
+					}
+				}
 			}
 			img {
 				border-radius: 20px;
 			}
 			flex: 1 0 40%;
 			.number {
+				transition: all .5 ease;
 				color: #242a32;
 				font-size: 96px;
 				font-weight: 600;
@@ -75,6 +90,38 @@
 				position: absolute;
 				bottom: -8%;
 				left: -5%;
+			}
+
+			.overview {
+				h5 {
+					font-size: 16px;
+					font-weight: 800;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 3;
+					white-space: pre-wrap;
+					overflow: hidden;
+				}
+				position: absolute;
+				height: 100%;
+				bottom: 0;
+				text-overflow: clip;
+				overflow: hidden;
+				padding: 5px;
+				background: radial-gradient(circle, rgba(43, 43, 43, 0.5) 0%, rgba(2, 150, 229, 1) 100%);
+				border-radius: 20px;
+				transition: all 0.6s ease;
+				opacity: 0;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				p {
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 7;
+					white-space: pre-wrap;
+					overflow: hidden;
+				}
 			}
 		}
 	}
