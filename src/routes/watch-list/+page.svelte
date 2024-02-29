@@ -8,7 +8,6 @@
 	let series: any = [];
 	let loading = false;
 
-
 	async function fetchData() {
 		try {
 			loading = true;
@@ -29,7 +28,7 @@
 				series.media_type = 'tv';
 				combinedResults.push(series);
 			});
-			loading = false
+			loading = false;
 		} catch (error) {
 			console.error('Error fetching movies:', error);
 		}
@@ -53,9 +52,9 @@
 					alt=""
 				/>
 				<div class="overview">
-						<h5>{item.title}</h5>
-						<p>{item.overview}</p>
-					</div>
+					<h5>{item.title}</h5>
+					<p>{item.overview}</p>
+				</div>
 			</a>
 		{/each}
 	</div>
@@ -70,7 +69,7 @@
 		img {
 			border-radius: 20px;
 		}
-		a{
+		a {
 			display: grid;
 			position: relative;
 			transition: all 0.4s ease;
@@ -83,28 +82,28 @@
 			}
 		}
 		.overview {
-		h5 {
-			font-size: 16px;
-			font-weight: 800;
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 3;
-			white-space: pre-wrap;
+			h5 {
+				font-size: 16px;
+				font-weight: 800;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 3;
+				white-space: pre-wrap;
+				overflow: hidden;
+			}
+			position: absolute;
+			height: 100%;
+			bottom: 0;
+			text-overflow: clip;
 			overflow: hidden;
+			padding: 5px;
+			background: radial-gradient(circle, rgba(43, 43, 43, 0.5) 0%, rgba(2, 150, 229, 1) 100%);
+			border-radius: 20px;
+			transition: all 0.6s ease;
+			opacity: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
 		}
-		position: absolute;
-		height: 100%;
-		bottom: 0;
-		text-overflow: clip;
-		overflow: hidden;
-		padding: 5px;
-		background: radial-gradient(circle, rgba(43, 43, 43, 0.5) 0%, rgba(2, 150, 229, 1) 100%);
-		border-radius: 20px;
-		transition: all 0.6s ease;
-		opacity: 0;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
-	}
 	}
 </style>
