@@ -2,7 +2,7 @@
 
 	import { PUBLIC_API_KEY } from '$env/static/public';
 	import {watchlistNeedFetchStore} from '$lib/dataStore';
-	import imgBack from '$lib/images/arrow-left.svg';
+	import imgBack from '$lib/images/arrow-left.svg?url';
 	export let pageTitle: string = 'Title';
     export let accountState: { watchlist: boolean } = {watchlist:false};
 	export let movieId: any = 0;
@@ -34,7 +34,7 @@ const toggleWatchlist = () => {
 </script>
 
 <header>
-	<a href="/"> <img src={imgBack} alt="" srcset="" /> </a>
+	<a href="/"> <img src={imgBack} alt=""/> </a>
 	<p class="page-title">{pageTitle}</p>
 	{#if pageTitle == 'Detail'}
 		<button on:click={toggleWatchlist} title="Add & Remove Watch list">

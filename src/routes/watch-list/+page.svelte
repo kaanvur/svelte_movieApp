@@ -29,8 +29,6 @@
 				series.media_type = 'tv';
 				combinedResults.push(series);
 			});
-			combinedResults = detail.movies.concat(detail.series);
-			watchlistNeedFetchStore.set(false);
 			loading = false
 		} catch (error) {
 			console.error('Error fetching movies:', error);
