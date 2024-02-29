@@ -91,6 +91,14 @@
 				white-space: pre-wrap;
 				overflow: hidden;
 			}
+			p {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 7;
+				white-space: pre-wrap;
+				overflow: hidden;
+				line-height: 1.2;
+			}
 			position: absolute;
 			height: 100%;
 			bottom: 0;

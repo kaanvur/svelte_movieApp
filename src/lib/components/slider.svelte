@@ -121,6 +121,7 @@
 					-webkit-line-clamp: 7;
 					white-space: pre-wrap;
 					overflow: hidden;
+					line-height: 1.2;
 				}
 			}
 		}
