@@ -56,7 +56,7 @@
 		alt=""
 	/>
 	<div class="vote">
-		<IcoStar stroke="#FF8700"/>
+		<IcoStar stroke="#FF8700" fill="none"/>
 		{Math.round((data.vote_average || 0) * 10) / 10}
 	</div>
 </div>
