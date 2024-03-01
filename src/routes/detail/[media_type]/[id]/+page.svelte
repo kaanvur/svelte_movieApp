@@ -2,8 +2,11 @@
 	import Header from '$lib/components/header.svelte';
 	import { fetchMovies } from '$lib/dataStore';
 	import { fade } from 'svelte/transition';
-	import type { MovieData } from './+page'; // Adjust the import path as necessary
-
+	import type { MovieData } from './+page';
+	import IcoStar from '$lib/images/Star.svg?component';
+	import IcoCalendar from "$lib/images/CalendarBlank.svg?component";
+	import IcoClock from "$lib/images/Clock.svg?component";
+	import IcoTicket from "$lib/images/Ticket.svg?component";
 
     export let data: MovieData;
 	const releaseDate = data.first_air_date || data.release_date;
@@ -53,6 +56,7 @@
 		alt=""
 	/>
 	<div class="vote">
+		<IcoStar stroke="#FF8700"/>
 		{Math.round((data.vote_average || 0) * 10) / 10}
 	</div>
 </div>
@@ -69,9 +73,10 @@
 		<h1>{data.name || data.title}</h1>
 	</div>
 	<div class="content-stats">
-		<p>{year}</p>
-		<p>{data.runtime || data.last_episode_to_air?.runtime || ''} Minutes</p>
+		<p><IcoCalendar stroke="#92929D" fill="none"/> {year}</p>
+		<p><IcoClock stroke="#92929D" fill="none"/>{data.runtime || data.last_episode_to_air?.runtime || ''} Minutes</p>
 		<p>
+			<IcoTicket stroke="#92929D" fill="none"/>
 			{#each data.genres as genre, index}
 				{genre.name}{index < data.genres.length - 1 ? ', ' : ''}
 			{/each}
@@ -171,6 +176,8 @@
 		bottom: 6%;
 		right: 5%;
 		padding: 4px 8px;
+		display: flex;
+    	gap: 5px;
 	}
 	.content-movie {
 		margin-inline: 8%;
@@ -197,7 +204,8 @@
 			line-height: 15px;
 			letter-spacing: 0.11999999731779099px;
 			color: #92929d;
-
+			display: flex;
+			gap: 3px;
 			margin-left: 12px;
 			padding-right: 12px;
 			&:not(:last-child) {
