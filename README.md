@@ -1,6 +1,28 @@
-# create-svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+# Hackathon Frontend Projesi
+#### Konu
+Tasarıma uygun bir film sitesi yapımı.
+#### Talimatlar
+- Bir frontend framework'ü kullanarak aşağıda belirtilecek olan API ve Figma üzerinde yapılmış tasarımı
+- uygulamak.
+- Ana sayfasında popüler filmler, yeni çıkanlar, yakında çıkacaklar, en çok beğenilenler listesinin
+- bulunmaktadır. API dökümanında bu linkler kolayca bulunabilir.
+- Detay sayfasında filmin trailer, cast, özeti gibi yazılar olacaktır. API üzerinden gerekli linkler kolayca
+- bulunabilir.
+- Search sayfası yapımı ve API ile arama yapılmalı. API üzerinden gerekli link bulunabilir veya daha önce
+- anasayfa için gelen veriler üzerinden işlem yapabilirsiniz.
+
+#### API
+Bu API token ile çalışmaktadır. Üye olarak token alabilirsiniz.
+```
+https://developers.themoviedb.org/3/getting-started/introduction
+```
+
+#### TasarımTasarım
+Tasarıma figma üzerinden kolayca ulaşabilirsiniz.
+```
+https://www.figma.com/file/6GfqZQ2NjkZ95hkBiOCbXt/Movies-app-(Community)-(Copy)?node-id=0%3A1&t=YRz6uAC5bhHamojj-0
+```
 
 ## Install  project
 
